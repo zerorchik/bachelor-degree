@@ -1,0 +1,19 @@
+{
+    "id": "V001",
+    "title": "Снайпер",
+    "criteria": {
+        "physical_fitness": {
+            "active": 1,
+            "weight": 5
+        },
+        "marksmanship": {
+            "active": 1,
+            "weight": 4
+        },
+        "psychological_resilience": {
+            "active": 1,
+            "weight": 3
+        }
+    },
+    "recruiter_id": "R001"
+}

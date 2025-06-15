@@ -1,0 +1,11 @@
+{
+    "id": "driving_license",
+    "question": "Які категорії прав маєте?",
+    "type": "category",
+    "options": {
+        "B": 0.6,
+        "B+C": 0.8,
+        "B+C+D": 1.0,
+        "Жодної": 0.0
+    }
+}

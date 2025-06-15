@@ -1,0 +1,29 @@
+{
+    "id": "C003",
+    "responses": {
+        "uav_experience": {
+            "type": "category",
+            "raw_answer": "Досвідчений",
+            "score": 1.0,
+            "status": "scored"
+        },
+        "technical_skills": {
+            "type": "scale",
+            "raw_answer": "4",
+            "score": 0.8,
+            "status": "scored"
+        },
+        "teamwork": {
+            "type": "manual",
+            "raw_answer": "Координував роботу дрон-групи",
+            "score": 0.7,
+            "status": "scored"
+        },
+        "motivation": {
+            "type": "manual",
+            "raw_answer": "Хочу захищати країну і розвивати технічні навички",
+            "score": 1.0,
+            "status": "scored"
+        }
+    }
+}

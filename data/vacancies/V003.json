@@ -1,0 +1,23 @@
+{
+    "id": "V003",
+    "title": "Психолог",
+    "criteria": {
+        "psych_education": {
+            "active": 1,
+            "weight": 5
+        },
+        "consulting_skills": {
+            "active": 1,
+            "weight": 4
+        },
+        "stress_tolerance": {
+            "active": 1,
+            "weight": 3
+        },
+        "physical_fitness": {
+            "active": 1,
+            "weight": 2
+        }
+    },
+    "recruiter_id": "R002"
+}

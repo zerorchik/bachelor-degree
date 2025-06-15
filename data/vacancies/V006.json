@@ -1,0 +1,19 @@
+{
+    "id": "V006",
+    "title": "Снайпер 2.0",
+    "criteria": {
+        "physical_fitness": {
+            "active": 1,
+            "weight": 5
+        },
+        "psychological_resilience": {
+            "active": 1,
+            "weight": 3
+        },
+        "motivation": {
+            "active": 1,
+            "weight": 3
+        }
+    },
+    "recruiter_id": "R001"
+}

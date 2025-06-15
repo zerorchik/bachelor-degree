@@ -1,0 +1,29 @@
+{
+    "id": "C004",
+    "responses": {
+        "psych_education": {
+            "type": "category",
+            "raw_answer": "Медична/Психологічна",
+            "score": 1.0,
+            "status": "scored"
+        },
+        "consulting_skills": {
+            "type": "scale",
+            "raw_answer": "5",
+            "score": 1.0,
+            "status": "scored"
+        },
+        "stress_tolerance": {
+            "type": "scale",
+            "raw_answer": "4",
+            "score": 0.8,
+            "status": "scored"
+        },
+        "physical_fitness": {
+            "type": "scale",
+            "raw_answer": "3",
+            "score": 0.6,
+            "status": "scored"
+        }
+    }
+}

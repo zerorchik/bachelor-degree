@@ -1,0 +1,23 @@
+{
+    "id": "V004",
+    "title": "Водій",
+    "criteria": {
+        "driving_license": {
+            "active": 1,
+            "weight": 5
+        },
+        "physical_fitness": {
+            "active": 1,
+            "weight": 4
+        },
+        "combat_readiness": {
+            "active": 1,
+            "weight": 3
+        },
+        "psychological_resilience": {
+            "active": 1,
+            "weight": 3
+        }
+    },
+    "recruiter_id": "R002"
+}

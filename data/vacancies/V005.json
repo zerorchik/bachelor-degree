@@ -1,0 +1,27 @@
+{
+    "id": "V005",
+    "title": "Оператор БПЛА",
+    "criteria": {
+        "uav_experience": {
+            "active": 1,
+            "weight": 5
+        },
+        "technical_skills": {
+            "active": 1,
+            "weight": 4
+        },
+        "teamwork": {
+            "active": 1,
+            "weight": 3
+        },
+        "military_service_experience": {
+            "active": 1,
+            "weight": 2
+        },
+        "motivation": {
+            "active": 1,
+            "weight": 4
+        }
+    },
+    "recruiter_id": "R002"
+}

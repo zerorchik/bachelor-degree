@@ -1,0 +1,23 @@
+{
+    "id": "C005",
+    "responses": {
+        "physical_fitness": {
+            "type": "scale",
+            "raw_answer": "5",
+            "score": 1.0,
+            "status": "scored"
+        },
+        "combat_readiness": {
+            "type": "category",
+            "raw_answer": "Так",
+            "score": 1.0,
+            "status": "scored"
+        },
+        "teamwork": {
+            "type": "manual",
+            "raw_answer": "Мав досвід патрулювання в складі екіпажу",
+            "score": 0.9,
+            "status": "scored"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "id": "military_service_experience",
+    "question": "Чи маєте досвід військової служби?",
+    "type": "category",
+    "options": {
+        "Так": 1.0,
+        "Ні": 0.0
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "id": "V002",
+    "title": "Стрілець",
+    "criteria": {
+        "teamwork": {
+            "active": 1,
+            "weight": 4
+        },
+        "combat_readiness": {
+            "active": 1,
+            "weight": 5
+        },
+        "psychological_resilience": {
+            "active": 1,
+            "weight": 3
+        }
+    },
+    "recruiter_id": "R001"
+}

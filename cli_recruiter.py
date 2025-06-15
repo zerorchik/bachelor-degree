@@ -197,40 +197,6 @@ def create_new_vacancy(recruiter):
             print("❌ Невірний вибір.")
 
 
-# def evaluate_candidates(recruiter):
-#     candidates = load_all_candidates("data/candidates")
-#     vacancies = load_all_vacancies("data/vacancies")
-#     relevant_criteria = set()
-#     for v in vacancies:
-#         if v.recruiter_id == recruiter.id:
-#             relevant_criteria.update(v.get_criteria_ids())
-#
-#     updated = False
-#     for c in candidates:
-#         for r in c.responses.values():
-#             if r.is_pending() and r.criterion_id in relevant_criteria:
-#                 print(f"\nКандидат {c.id}, критерій {r.criterion_id}")
-#                 print(f"Відповідь: {r.raw_answer}")
-#                 while True:
-#                     s = input("Оцінка (0.0–1.0): ").strip()
-#                     try:
-#                         val = float(s)
-#                         if 0 <= val <= 1:
-#                             r.assign_score(val)
-#                             updated = True
-#                             break
-#                         else:
-#                             print("❌ Введіть значення від 0 до 1")
-#                     except:
-#                         print("❌ Некоректне число")
-#     if updated:
-#         for c in candidates:
-#             save_json(c.to_dict(), f"data/candidates/{c.id}.json")
-#         print("✅ Збережено.")
-#     else:
-#         print("\n✔ Оцінювати нічого.")
-
-
 def evaluate_candidates(recruiter):
     candidates = load_all_candidates("data/candidates")
     vacancies = load_all_vacancies("data/vacancies")

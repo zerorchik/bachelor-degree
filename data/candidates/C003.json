@@ -1,29 +1,33 @@
 {
     "id": "C003",
+    "name": "Candidate3",
+    "password": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
     "responses": {
-        "uav_experience": {
-            "type": "category",
-            "raw_answer": "Досвідчений",
-            "score": 1.0,
-            "status": "scored"
-        },
-        "technical_skills": {
-            "type": "scale",
-            "raw_answer": "4",
-            "score": 0.8,
-            "status": "scored"
-        },
-        "teamwork": {
-            "type": "manual",
-            "raw_answer": "Координував роботу дрон-групи",
-            "score": 0.7,
-            "status": "scored"
-        },
-        "motivation": {
-            "type": "manual",
-            "raw_answer": "Хочу захищати країну і розвивати технічні навички",
-            "score": 1.0,
-            "status": "scored"
+        "V005": {
+            "uav_experience": {
+                "type": "category",
+                "raw_answer": "Досвідчений",
+                "score": 1.0,
+                "status": "scored"
+            },
+            "technical_skills": {
+                "type": "scale",
+                "raw_answer": "4",
+                "score": 0.8,
+                "status": "scored"
+            },
+            "teamwork": {
+                "type": "manual",
+                "raw_answer": "Координував роботу дрон-групи",
+                "score": 0.7,
+                "status": "scored"
+            },
+            "motivation": {
+                "type": "manual",
+                "raw_answer": "Хочу захищати країну і розвивати технічні навички",
+                "score": 1.0,
+                "status": "scored"
+            }
         }
     }
 }

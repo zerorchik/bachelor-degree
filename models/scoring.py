@@ -8,7 +8,7 @@ class Scoring:
         for crit_id in vacancy.get_criteria_ids():
             if vacancy.is_criterion_used(crit_id):
                 weight = vacancy.get_weight(crit_id)
-                response = candidate.get_response(crit_id)
+                response = candidate.get_response(vacancy.id, crit_id)
                 score = response.score if response and response.score is not None else 0.0
                 numerator += weight * score
                 denominator += weight
@@ -17,6 +17,10 @@ class Scoring:
     def compute_matrix(self, candidates, vacancies, criteria_bank):
         matrix = {}
         for candidate in candidates:
+            # Перевіряємо, чи кандидат подавався на хоча б одну з вакансій рекрутера
+            relevant = any(vac.id in candidate.responses for vac in vacancies)
+            if not relevant:
+                continue
             for vacancy in vacancies:
                 score = self.compute_score(candidate, vacancy, criteria_bank)
                 matrix[(candidate.id, vacancy.id)] = round(score, 4)

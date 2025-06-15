@@ -1,23 +1,47 @@
 {
     "id": "C001",
+    "name": "Candidate1",
+    "password": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
     "responses": {
-        "physical_fitness": {
-            "type": "scale",
-            "raw_answer": "4",
-            "score": 0.8,
-            "status": "scored"
+        "V001": {
+            "physical_fitness": {
+                "type": "scale",
+                "raw_answer": "4",
+                "score": 0.8,
+                "status": "scored"
+            },
+            "marksmanship": {
+                "type": "scale",
+                "raw_answer": "5",
+                "score": 1.0,
+                "status": "scored"
+            },
+            "psychological_resilience": {
+                "type": "scale",
+                "raw_answer": "3",
+                "score": 0.6,
+                "status": "scored"
+            }
         },
-        "marksmanship": {
-            "type": "scale",
-            "raw_answer": "5",
-            "score": 1.0,
-            "status": "scored"
-        },
-        "psychological_resilience": {
-            "type": "scale",
-            "raw_answer": "3",
-            "score": 0.6,
-            "status": "scored"
+        "V006": {
+            "physical_fitness": {
+                "type": "scale",
+                "raw_answer": "4",
+                "score": 0.8,
+                "status": "scored"
+            },
+            "psychological_resilience": {
+                "type": "scale",
+                "raw_answer": "4",
+                "score": 0.8,
+                "status": "scored"
+            },
+            "motivation": {
+                "type": "manual",
+                "raw_answer": "хочу вбивати підарів",
+                "score": 1.0,
+                "status": "scored"
+            }
         }
     }
 }

@@ -1,23 +1,27 @@
 {
     "id": "C005",
+    "name": "Candidate5",
+    "password": "1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb",
     "responses": {
-        "physical_fitness": {
-            "type": "scale",
-            "raw_answer": "5",
-            "score": 1.0,
-            "status": "scored"
-        },
-        "combat_readiness": {
-            "type": "category",
-            "raw_answer": "Так",
-            "score": 1.0,
-            "status": "scored"
-        },
-        "teamwork": {
-            "type": "manual",
-            "raw_answer": "Мав досвід патрулювання в складі екіпажу",
-            "score": 0.9,
-            "status": "scored"
+        "V002": {
+            "combat_readiness": {
+                "type": "category",
+                "raw_answer": "Так",
+                "score": 1.0,
+                "status": "scored"
+            },
+            "teamwork": {
+                "type": "manual",
+                "raw_answer": "Мав досвід патрулювання в складі екіпажу",
+                "score": 0.9,
+                "status": "scored"
+            },
+            "physical_fitness": {
+                "type": "scale",
+                "raw_answer": "5",
+                "score": 1.0,
+                "status": "scored"
+            }
         }
     }
 }

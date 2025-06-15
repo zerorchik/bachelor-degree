@@ -6,6 +6,7 @@ from utils.io import (
 )
 from models.recruiter import Recruiter
 from models.vacancy import Vacancy
+from models.candidate_response import CandidateResponse
 from models.criteria import Criteria
 from models.scoring import Scoring
 
@@ -196,32 +197,92 @@ def create_new_vacancy(recruiter):
             print("❌ Невірний вибір.")
 
 
+# def evaluate_candidates(recruiter):
+#     candidates = load_all_candidates("data/candidates")
+#     vacancies = load_all_vacancies("data/vacancies")
+#     relevant_criteria = set()
+#     for v in vacancies:
+#         if v.recruiter_id == recruiter.id:
+#             relevant_criteria.update(v.get_criteria_ids())
+#
+#     updated = False
+#     for c in candidates:
+#         for r in c.responses.values():
+#             if r.is_pending() and r.criterion_id in relevant_criteria:
+#                 print(f"\nКандидат {c.id}, критерій {r.criterion_id}")
+#                 print(f"Відповідь: {r.raw_answer}")
+#                 while True:
+#                     s = input("Оцінка (0.0–1.0): ").strip()
+#                     try:
+#                         val = float(s)
+#                         if 0 <= val <= 1:
+#                             r.assign_score(val)
+#                             updated = True
+#                             break
+#                         else:
+#                             print("❌ Введіть значення від 0 до 1")
+#                     except:
+#                         print("❌ Некоректне число")
+#     if updated:
+#         for c in candidates:
+#             save_json(c.to_dict(), f"data/candidates/{c.id}.json")
+#         print("✅ Збережено.")
+#     else:
+#         print("\n✔ Оцінювати нічого.")
+
+
 def evaluate_candidates(recruiter):
     candidates = load_all_candidates("data/candidates")
     vacancies = load_all_vacancies("data/vacancies")
-    relevant_criteria = set()
-    for v in vacancies:
-        if v.recruiter_id == recruiter.id:
-            relevant_criteria.update(v.get_criteria_ids())
+    criteria_bank = load_criteria_bank("data/criteria_bank")
+
+    # Вакансії, створені цим рекрутером
+    recruiter_vacancies = {v.id: v for v in vacancies if v.recruiter_id == recruiter.id}
+    relevant_criteria = {
+        crit_id
+        for v in recruiter_vacancies.values()
+        for crit_id in v.get_criteria_ids()
+    }
 
     updated = False
+
     for c in candidates:
-        for r in c.responses.values():
-            if r.is_pending() and r.criterion_id in relevant_criteria:
-                print(f"\nКандидат {c.id}, критерій {r.criterion_id}")
-                print(f"Відповідь: {r.raw_answer}")
-                while True:
-                    s = input("Оцінка (0.0–1.0): ").strip()
-                    try:
-                        val = float(s)
-                        if 0 <= val <= 1:
-                            r.assign_score(val)
-                            updated = True
-                            break
-                        else:
-                            print("❌ Введіть значення від 0 до 1")
-                    except:
-                        print("❌ Некоректне число")
+        for vac_id, crit_dict in c.responses.items():
+            if vac_id not in recruiter_vacancies:
+                continue
+
+            vacancy_title = recruiter_vacancies[vac_id].title
+
+            for crit_id, r in crit_dict.items():
+                # Якщо об'єкт ще не конвертований
+                if isinstance(r, dict):
+                    r = CandidateResponse(
+                        criterion_id=crit_id,
+                        response_type=r["type"],
+                        raw_answer=r["raw_answer"],
+                        score=r["score"],
+                        status=r["status"]
+                    )
+                    c.responses[vac_id][crit_id] = r
+
+                if r.is_pending() and crit_id in relevant_criteria:
+                    question_text = criteria_bank[crit_id].question if crit_id in criteria_bank else "(питання не знайдено)"
+                    print(f"\nКандидат {c.id}, вакансія {vacancy_title} ({vac_id}), критерій {crit_id}")
+                    print(f"Питання: {question_text}")
+                    print(f"Відповідь: {r.raw_answer}")
+                    while True:
+                        s = input("Оцінка (0.0–1.0): ").strip()
+                        try:
+                            val = float(s)
+                            if 0 <= val <= 1:
+                                r.assign_score(val)
+                                updated = True
+                                break
+                            else:
+                                print("❌ Введіть значення від 0 до 1")
+                        except ValueError:
+                            print("❌ Некоректне число")
+
     if updated:
         for c in candidates:
             save_json(c.to_dict(), f"data/candidates/{c.id}.json")

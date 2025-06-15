@@ -1,29 +1,33 @@
 {
     "id": "C006",
+    "name": "Candidate6",
+    "password": "39fa9ec190eee7b6f4dff1100d6343e10918d044c75eac8f9e9a2596173f80c9",
     "responses": {
-        "psych_education": {
-            "type": "category",
-            "raw_answer": "Інша вища",
-            "score": 0.5,
-            "status": "scored"
-        },
-        "consulting_skills": {
-            "type": "scale",
-            "raw_answer": "3",
-            "score": 0.6,
-            "status": "scored"
-        },
-        "stress_tolerance": {
-            "type": "scale",
-            "raw_answer": "2",
-            "score": 0.4,
-            "status": "scored"
-        },
-        "physical_fitness": {
-            "type": "scale",
-            "raw_answer": "2",
-            "score": 0.4,
-            "status": "scored"
+        "V003": {
+            "psych_education": {
+                "type": "category",
+                "raw_answer": "Інша вища",
+                "score": 0.5,
+                "status": "scored"
+            },
+            "consulting_skills": {
+                "type": "scale",
+                "raw_answer": "3",
+                "score": 0.6,
+                "status": "scored"
+            },
+            "stress_tolerance": {
+                "type": "scale",
+                "raw_answer": "2",
+                "score": 0.4,
+                "status": "scored"
+            },
+            "physical_fitness": {
+                "type": "scale",
+                "raw_answer": "2",
+                "score": 0.4,
+                "status": "scored"
+            }
         }
     }
 }

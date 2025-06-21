@@ -1,5 +1,5 @@
-from cli_candidate import run_candidate_cli
-from cli_recruiter import run_recruiter_cli
+from interface_candidate.cli_candidate import run_candidate_cli
+from interface_recruiter.cli_recruiter import run_recruiter_cli
 
 def main():
     print("\nСистема рекрутингу:")

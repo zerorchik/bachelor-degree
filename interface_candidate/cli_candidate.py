@@ -8,11 +8,14 @@ from models.candidate import Candidate
 from models.candidate_response import CandidateResponse
 
 
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def load_all_candidates(path="data/candidates"):
+def load_all_candidates(path="../data/candidates"):
     candidates = {}
     for fname in os.listdir(path):
         if fname.endswith(".json"):
@@ -25,12 +28,14 @@ def load_all_candidates(path="data/candidates"):
 def login_or_register_candidate():
     candidates = load_all_candidates()
     while True:
-        print("\n👤 Вхід до системи кандидата")
+        print("\n------------------------------------")
+        print("\tВхід до системи кандидата")
+        print("------------------------------------")
         print("1. Увійти")
         print("2. Зареєструватися")
         print("0. Вийти")
 
-        choice = input("→ ").strip()
+        choice = input("-> ").strip()
         if choice == "1":
             candidate = authorize_candidate(candidates)
             if candidate:
@@ -42,7 +47,7 @@ def login_or_register_candidate():
         elif choice == "0":
             return None
         else:
-            print("❌ Невірний вибір.")
+            print("X - Невірний вибір.")
 
 
 def authorize_candidate(candidates):
@@ -51,7 +56,7 @@ def authorize_candidate(candidates):
         if name == "0":
             return None
         if name not in candidates:
-            print("❌ Кандидата не знайдено.")
+            print("X - Кандидата не знайдено.")
             continue
 
         candidate = candidates[name]
@@ -60,10 +65,10 @@ def authorize_candidate(candidates):
             if password == "0":
                 break  # Назад до імені
             if candidate.password == hash_password(password):
-                print(f"✅ Вхід успішний.\n\nВаш ID: {candidate.id}")
+                print(f"OK - Вхід успішний.\n\nВаш ID: {candidate.id}")
                 return candidate
             else:
-                print("❌ Невірний пароль.")
+                print("X - Невірний пароль.")
 
 
 def register_candidate(candidates):
@@ -72,14 +77,14 @@ def register_candidate(candidates):
         if name == "0":
             return None
         if name in candidates:
-            print("❌ Такий кандидат вже існує.")
+            print("X - Такий кандидат вже існує.")
             continue
         password = input("Встановіть пароль: ").strip()
-        cid = generate_next_id("data/candidates", "C")
+        cid = generate_next_id("../data/candidates", "C")
         hashed = hash_password(password)
         new_cand = Candidate(cid, name, hashed)
-        save_json(new_cand.to_dict(), f"data/candidates/{cid}.json")
-        print(f"✅ Успішна реєстрація. Ваш ID: {cid}")
+        save_json(new_cand.to_dict(), f"../data/candidates/{cid}.json")
+        print(f"OK - Успішна реєстрація. Ваш ID: {cid}")
         return new_cand
 
 
@@ -88,17 +93,19 @@ def run_candidate_cli():
     if candidate is None:
         return
 
-    base_path = "data"
+    base_path = "../data"
     vacancies = load_all_vacancies(os.path.join(base_path, "vacancies"))
     criteria_bank = load_criteria_bank(os.path.join(base_path, "criteria_bank"))
 
     while True:
-        print("\n📋 Меню кандидата")
+        print("\n------------------------------------")
+        print("\tМеню кандидата")
+        print("------------------------------------")
         print("1. Вакансії, на які ви подались")
         print("2. Інші доступні вакансії")
         print("0. Вийти")
 
-        choice = input("→ ").strip()
+        choice = input("-> ").strip()
         if choice == "0":
             break
 
@@ -106,9 +113,11 @@ def run_candidate_cli():
             submitted_ids = candidate.responses.keys()
             submitted_vacancies = [v for v in vacancies if v.id in submitted_ids]
             if not submitted_vacancies:
-                print("ℹ️ Ви ще не подались на жодну вакансію.")
+                print("X - Ви ще не подались на жодну вакансію.")
                 continue
-            print("\n📄 Ви подались на:")
+            print("\n------------------------------------")
+            print("\tВи подались на:")
+            print("------------------------------------")
             for i, v in enumerate(submitted_vacancies, 1):
                 print(f"{i}. {v.title} ({v.id})")
 
@@ -116,10 +125,12 @@ def run_candidate_cli():
             submitted_ids = candidate.responses.keys()
             available_vacancies = [v for v in vacancies if v.id not in submitted_ids]
             if not available_vacancies:
-                print("✔ Ви вже подались на всі доступні вакансії.")
+                print("OK - Ви вже подались на всі доступні вакансії.")
                 continue
 
-            print("\n📄 Доступні вакансії:")
+            print("\n------------------------------------")
+            print("\tДоступні вакансії:")
+            print("------------------------------------")
             for i, v in enumerate(available_vacancies, 1):
                 print(f"{i}. {v.title} ({v.id})")
             print("0. Назад")
@@ -128,11 +139,11 @@ def run_candidate_cli():
             if index == "0":
                 continue
             if not index.isdigit() or not (1 <= int(index) <= len(available_vacancies)):
-                print("❌ Невірний вибір.")
+                print("X - Невірний вибір.")
                 continue
 
             vacancy = available_vacancies[int(index) - 1]
-            print(f"\n📌 Вакансія: {vacancy.title}")
+            print(f"\n├── Вакансія: {vacancy.title}")
             new_responses = {}
 
             for idx, crit_id in enumerate(vacancy.get_criteria_ids(), 1):
@@ -151,18 +162,18 @@ def run_candidate_cli():
                         if sel.isdigit() and 1 <= int(sel) <= len(options):
                             raw = options[int(sel) - 1]
                             break
-                        print("❌ Невірний вибір.")
+                        print("X - Невірний вибір.")
 
                 elif crit.type == "scale" and crit.options:
                     print("Введіть значення від 1 до 5:")
                     while True:
-                        raw = input("→ ").strip()
+                        raw = input("-> ").strip()
                         if raw in crit.options:
                             break
-                        print("❌ Невірне значення.")
+                        print("X - Невірне значення.")
 
                 else:
-                    raw = input("→ ")
+                    raw = input("-> ")
 
                 if crit.type in ["scale", "category"]:
                     score = crit.normalize_answer(raw)
@@ -171,8 +182,8 @@ def run_candidate_cli():
                     new_responses[crit_id] = CandidateResponse(crit_id, crit.type, raw, None, "pending")
 
             candidate.add_responses_for_vacancy(vacancy.id, new_responses)
-            save_json(candidate.to_dict(), f"data/candidates/{candidate.id}.json")
-            print(f"✅ Анкета на \"{vacancy.title}\" збережена.")
+            save_json(candidate.to_dict(), f"../data/candidates/{candidate.id}.json")
+            print(f"OK - Анкета на \"{vacancy.title}\" збережена.")
 
         else:
-            print("❌ Невірний вибір.")
+            print("X - Невірний вибір.")

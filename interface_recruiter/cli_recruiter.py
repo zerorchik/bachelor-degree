@@ -11,11 +11,14 @@ from models.criteria import Criteria
 from models.scoring import Scoring
 
 
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def load_all_recruiters(path="data/recruiters"):
+def load_all_recruiters(path="../data/recruiters"):
     recruiters = {}
     for fname in os.listdir(path):
         if fname.endswith(".json"):
@@ -27,12 +30,14 @@ def load_all_recruiters(path="data/recruiters"):
 def login_or_register():
     recruiters = load_all_recruiters()
     while True:
-        print("\n🧑‍💼 Вхід до системи")
+        print("\n------------------------------------")
+        print("\tВхід до системи")
+        print("------------------------------------")
         print("1. Увійти")
         print("2. Зареєструватися")
         print("0. Вийти")
 
-        choice = input("→ ").strip()
+        choice = input("-> ").strip()
         if choice == "1":
             recruiter = authorize_recruiter(recruiters)
             if recruiter:
@@ -44,7 +49,7 @@ def login_or_register():
         elif choice == "0":
             return None
         else:
-            print("❌ Невірний вибір.")
+            print("X - Невірний вибір.")
 
 
 def register_recruiter(recruiters):
@@ -53,14 +58,14 @@ def register_recruiter(recruiters):
         if name == "0":
             return None
         if any(r["name"] == name for r in recruiters.values()):
-            print("❌ Користувач з таким іменем уже існує.")
+            print("X - Користувач з таким іменем уже існує.")
             continue
         password = input("Встановіть пароль: ").strip()
-        rid = generate_next_id("data/recruiters", "R")
+        rid = generate_next_id("../data/recruiters", "R")
         hashed = hash_password(password)
         data = {"id": rid, "name": name, "password": hashed}
-        save_json(data, os.path.join("data/recruiters", f"{rid}.json"))
-        print(f"✅ Рекрутер зареєстрований з ID {rid}")
+        save_json(data, os.path.join("../data/recruiters", f"{rid}.json"))
+        print(f"OK - Рекрутер зареєстрований з ID {rid}")
         return Recruiter(rid, name)
 
 
@@ -73,7 +78,7 @@ def authorize_recruiter(recruiters):
         # Шукаємо рекрутера за ім’ям
         found = next((r for r in recruiters.values() if r["name"] == name), None)
         if not found:
-            print("❌ Користувача з таким іменем не знайдено.")
+            print("X - Користувача з таким іменем не знайдено.")
             continue
 
         # Запитуємо пароль з можливістю повернення
@@ -82,14 +87,16 @@ def authorize_recruiter(recruiters):
             if password == "0":
                 break  # назад до введення імені
             if found["password"] == hash_password(password):
-                print(f"✅ Успішний вхід.\n\nВаш ID: {found['id']}")
+                print(f"OK - Успішний вхід.\n\nВаш ID: {found['id']}")
                 return Recruiter(found["id"], found["name"])
             else:
-                print("❌ Невірний пароль.")
+                print("X - Невірний пароль.")
 
 
 def create_new_criterion():
-    print("\n📋 Додавання нового критерію")
+    print("\n------------------------------------")
+    print("\tДодавання нового критерію")
+    print("------------------------------------")
     cid = input("Назва критерію: ").strip()
     question = input("Текст запитання: ").strip()
 
@@ -98,12 +105,12 @@ def create_new_criterion():
     for i, t in enumerate(type_options, 1):
         print(f"{i}. {t}")
     while True:
-        t_index = input("→ ").strip()
+        t_index = input("-> ").strip()
         if t_index.isdigit() and 1 <= int(t_index) <= len(type_options):
             ctype = type_options[int(t_index) - 1]
             break
         else:
-            print("❌ Введіть 1, 2 або 3.")
+            print("X - Введіть 1, 2 або 3.")
 
     options = None
     if ctype == "category":
@@ -121,16 +128,16 @@ def create_new_criterion():
                         options[label] = score
                         break
                     else:
-                        print("❌ Введіть число від 0.0 до 1.0")
+                        print("X - Введіть число від 0.0 до 1.0")
                 except ValueError:
-                    print("❌ Введіть число (наприклад 0.5)")
+                    print("X - Введіть число (наприклад 0.5)")
 
     elif ctype == "scale":
         print("Що краще: більша оцінка чи менша?")
         print("1. Більша")
         print("2. Менша")
         while True:
-            direction = input("→ ").strip()
+            direction = input("-> ").strip()
             if direction == "1":
                 options = {str(i): round(i * 0.2, 2) for i in range(1, 6)}
                 break
@@ -138,25 +145,25 @@ def create_new_criterion():
                 options = {str(i): round(1.2 - i * 0.2, 2) for i in range(1, 6)}
                 break
             else:
-                print("❌ Введіть 1 або 2")
+                print("X - Введіть 1 або 2")
 
     crit = Criteria(cid, question, ctype, options)
-    save_json(crit.to_dict(), os.path.join("data", "criteria_bank", f"{cid}.json"))
-    print(f"✅ Критерій '{cid}' додано.")
+    save_json(crit.to_dict(), os.path.join("../data", "criteria_bank", f"{cid}.json"))
+    print(f"OK - Критерій '{cid}' додано.")
     return cid
 
 
 def finalize_vacancy(vid, title, active_criteria, recruiter_id):
     vacancy = Vacancy(vid, title, active_criteria, recruiter_id)
-    save_json(vacancy.to_dict(), os.path.join("data", "vacancies", f"{vid}.json"))
-    print(f"✅ Вакансію {vid} збережено.")
+    save_json(vacancy.to_dict(), os.path.join("../data", "vacancies", f"{vid}.json"))
+    print(f"OK - Вакансію {vid} збережено.")
 
 
 def create_new_vacancy(recruiter):
-    vid = generate_next_id("data/vacancies", "V")
+    vid = generate_next_id("../data/vacancies", "V")
     print(f"\nID вакансії: {vid}")
     title = input("Введіть назву вакансії: ").strip()
-    criteria_bank = load_criteria_bank("data/criteria_bank")
+    criteria_bank = load_criteria_bank("../data/criteria_bank")
     active_criteria = {}
 
     while True:
@@ -164,43 +171,43 @@ def create_new_vacancy(recruiter):
         all_criteria = list(criteria_bank.items())
         for i, (cid, crit) in enumerate(all_criteria, 1):
             print(f"{i}. {cid} ({crit.type})")
-        print("0. ➕ Додати новий")
-        print("q. ❌ Завершити")
+        print("0. (+) Додати новий")
+        print("q. (X) Завершити")
 
-        choice = input("→ ").strip().lower()
+        choice = input("-> ").strip().lower()
         if choice == "0":
             create_new_criterion()
-            criteria_bank = load_criteria_bank("data/criteria_bank")
+            criteria_bank = load_criteria_bank("../data/criteria_bank")
             continue
         elif choice == "q":
             if not active_criteria:
-                print("⚠ Створення скасовано: жодного критерію не вибрано.")
+                print("X - Створення скасовано: жодного критерію не вибрано.")
                 return
             return finalize_vacancy(vid, title, active_criteria, recruiter.id)
         elif choice.isdigit() and 1 <= int(choice) <= len(all_criteria):
             cid, crit = all_criteria[int(choice) - 1]
-            print(f"\n📌 {cid} ({crit.type}) — {crit.question}")
+            print(f"\n├── {cid} ({crit.type}) \n│   └── {crit.question}")
             if crit.options:
                 print("Варіанти:")
                 for k, v in crit.options.items():
                     print(f"  - {k}: {v}")
             print("\n1. Додати до вакансії\n2. Назад")
-            act = input("→ ").strip()
+            act = input("-> ").strip()
             if act == "1":
                 while True:
                     w = input("Вага (1–5): ").strip()
                     if w.isdigit() and 1 <= int(w) <= 5:
                         active_criteria[cid] = {"active": 1, "weight": int(w)}
                         break
-                    print("❌ Невірне значення.")
+                    print("X - Невірне значення.")
         else:
-            print("❌ Невірний вибір.")
+            print("X - Невірний вибір.")
 
 
 def evaluate_candidates(recruiter):
-    candidates = load_all_candidates("data/candidates")
-    vacancies = load_all_vacancies("data/vacancies")
-    criteria_bank = load_criteria_bank("data/criteria_bank")
+    candidates = load_all_candidates("../data/candidates")
+    vacancies = load_all_vacancies("../data/vacancies")
+    criteria_bank = load_criteria_bank("../data/criteria_bank")
 
     # Вакансії, створені цим рекрутером
     recruiter_vacancies = {v.id: v for v in vacancies if v.recruiter_id == recruiter.id}
@@ -245,21 +252,23 @@ def evaluate_candidates(recruiter):
                                 updated = True
                                 break
                             else:
-                                print("❌ Введіть значення від 0 до 1")
+                                print("X - Введіть значення від 0 до 1")
                         except ValueError:
-                            print("❌ Некоректне число")
+                            print("X - Некоректне число")
 
     if updated:
         for c in candidates:
             save_json(c.to_dict(), f"data/candidates/{c.id}.json")
-        print("✅ Збережено.")
+        print("OK - Збережено.")
     else:
-        print("\n✔ Оцінювати нічого.")
+        print("\nOK - Оцінювати нічого.")
 
 
 def view_recruiter_vacancies(recruiter):
-    vacancies = load_all_vacancies("data/vacancies")
-    print(f"\n📄 Вакансії рекрутера {recruiter.id}:")
+    vacancies = load_all_vacancies("../data/vacancies")
+    print("\n------------------------------------")
+    print(f"\tВакансії рекрутера {recruiter.id}:")
+    print("------------------------------------")
     count = 0
     for v in vacancies:
         if v.recruiter_id == recruiter.id:
@@ -272,36 +281,35 @@ def view_recruiter_vacancies(recruiter):
 def run_recruiter_cli():
     recruiter = login_or_register()
     if recruiter is None:
-        print("🚪 Вихід із системи.")
+        print("\nX - Вихід із системи.")
         return
 
     while True:
-        print("\n🧑‍💼 Меню рекрутера")
-        print("1. Додати критерій")
-        print("2. Додати вакансію")
-        print("3. Переглянути мої вакансії")
-        print("4. Оцінити кандидатів")
-        print("5. Згенерувати CSV")
+        print("\n------------------------------------")
+        print("\tМеню рекрутера")
+        print("------------------------------------")
+        print("1. Додати вакансію")
+        print("2. Переглянути мої вакансії")
+        print("3. Оцінити кандидатів")
+        print("4. Згенерувати CSV")
         print("0. Вийти")
 
-        cmd = input("→ ").strip()
+        cmd = input("-> ").strip()
         if cmd == "1":
-            create_new_criterion()
-        elif cmd == "2":
             create_new_vacancy(recruiter)
-        elif cmd == "3":
+        elif cmd == "2":
             view_recruiter_vacancies(recruiter)
-        elif cmd == "4":
+        elif cmd == "3":
             evaluate_candidates(recruiter)
-        elif cmd == "5":
+        elif cmd == "4":
             scoring = Scoring()
-            cands = load_all_candidates("data/candidates")
-            vacs = load_all_vacancies("data/vacancies")
-            bank = load_criteria_bank("data/criteria_bank")
+            cands = load_all_candidates("../data/candidates")
+            vacs = load_all_vacancies("../data/vacancies")
+            bank = load_criteria_bank("../data/criteria_bank")
             own_vacs = [v for v in vacs if v.recruiter_id == recruiter.id]
             matrix = scoring.compute_matrix(cands, own_vacs, bank)
-            scoring.export_to_csv(matrix, f"data/results/matrix_{recruiter.id}.csv")
+            scoring.export_to_csv(matrix, f"../data/results/matrix_{recruiter.id}.csv")
         elif cmd == "0":
             break
         else:
-            print("❌ Невірна команда.")
+            print("X - Невірна команда.")
